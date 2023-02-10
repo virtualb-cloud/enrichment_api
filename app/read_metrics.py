@@ -16,7 +16,7 @@ class Read_metrics:
         test_mae, test_mse, test_r2, validation_mae, validation_mse, validation_r2,
         execution_date
         
-        FROM {self.schema_name}.sample_properties
+        FROM {self.schema_name}.regression_metrics
         '''
 
         data = self.engine.execute(statement=query).fetchall()

@@ -6,7 +6,7 @@ import json
 
 # samples
 from app.read_samples import Read
-from app.train_read_metrics import Read_metrics
+from app.read_metrics import Read_metrics
 from app.background_tasks import inserter, trainer, deleter
 from app.insert_controller import Insert_controller
 from app.train_controller import Train_controller
@@ -151,10 +151,10 @@ def read_train_metrics():
         read = Read_metrics()
 
         # call the modeler
-        # try:
-        output = read.run()
-        # except:
-        #     return jsonify("Reading Error"), 500
+        try:
+            output = read.run()
+        except:
+            return jsonify("Reading Error"), 500
         
         return jsonify(output), 200
 
