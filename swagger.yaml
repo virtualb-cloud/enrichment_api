@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: '3.0'
+  version: '1.0'
   title: enrichment v3.0
   description: >-
   contact: {}
@@ -9,7 +9,6 @@ basePath: /
 securityDefinitions: {}
 schemes:
 - https
-- http
 consumes:
 - application/json
 produces:
