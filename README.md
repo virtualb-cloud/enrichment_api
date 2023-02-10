@@ -9,5 +9,9 @@ containing version 3 of api and first samples
 ### in the dockerfile directory, on the terminal:
 ### docker build -t <tag name> .
 
+### 3) run the docker:
+### in the dockerfile directory, on the terminal:
+### docker run -d -p 3000:3000 <tag name>
 
+### 4) finally use the swagger instructions to call the api
 
