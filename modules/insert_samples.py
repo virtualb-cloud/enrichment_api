@@ -14,8 +14,8 @@ class Insert:
         SELECT max(sample_id)
         FROM {self.schema_name}.sample_properties
         '''
-    
-        response = self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            response = conn.execute(statement=query)
         self.sample_id = response.fetchone()[0]
 
         if self.sample_id == None: self.sample_id = 0
@@ -26,8 +26,8 @@ class Insert:
         SELECT max(person_id)
         FROM {self.schema_name}.sociodemographics
         '''
-    
-        response = self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            response = conn.execute(statement=query)
         self.person_id = response.fetchone()[0]
 
         if self.person_id == None: self.person_id = 0
@@ -106,7 +106,8 @@ class Insert:
         mode_profession, sample_size, sample_date, sample_source, sample_content
         FROM {self.schema_name}.sample_properties
         '''
-        data = self.engine.execute(statement=query).fetchall()
+        with self.engine.connect() as conn:
+            data = conn.execute(statement=query).fetchall()
         sample_identity = tuple(
             [mean_age, mode_gender, 
             mode_location, mode_education, mode_profession, 
@@ -127,7 +128,8 @@ class Insert:
                 {sample_size}, '{sample_date}', '{sample_source}', '{content}'
             )
             '''
-            self.engine.execute(statement=query)
+            with self.engine.connect() as conn:
+                conn.execute(statement=query)
 
             return True
 
@@ -157,9 +159,9 @@ class Insert:
         query = query[:-1] 
 
         # execute the query
-        self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            conn.execute(statement=query)
 
-        
         return True
 
     def insert_people_cultures(self, sample:list):
@@ -207,7 +209,8 @@ class Insert:
         query = query[:-1] 
 
         # execute the query
-        self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            conn.execute(statement=query)
 
         return True
 
@@ -257,7 +260,8 @@ class Insert:
         query = query[:-1] 
 
         # execute the query
-        self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            conn.execute(statement=query)
 
         return True
 
@@ -301,7 +305,8 @@ class Insert:
         query = query[:-1] 
 
         # execute the query
-        self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            conn.execute(statement=query)
 
         return True
 
@@ -355,7 +360,8 @@ class Insert:
         query = query[:-1] 
 
         # execute the query
-        self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            conn.execute(statement=query)
         
         return True
 

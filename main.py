@@ -170,10 +170,10 @@ def read_samples():
         read = Read()
 
         # call the modeler
-        try:
-            output = read.run()
-        except:
-            return jsonify("Prediction Error"), 500
+        
+        output = read.run()
+        # except:
+        #     return jsonify("Reading Error"), 500
         
         return jsonify(output), 200
 

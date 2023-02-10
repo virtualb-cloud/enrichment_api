@@ -17,7 +17,9 @@ class Delete:
         FROM {self.schema_name}.sample_properties
         '''
 
-        present_ids_tuple = self.engine.execute(statement=query).fetchall()
+        with self.engine.connect() as conn:
+            present_ids_tuple = conn.execute(statement=query).fetchall()
+
         present_ids = []
         for element in present_ids_tuple:
             present_ids.append(element[0])
@@ -52,7 +54,7 @@ class Delete:
             DELETE FROM {self.schema_name}.sample_properties as sp
             WHERE sp.sample_id in {tuple(ids)}
             '''
-
-        self.engine.execute(statement=query)
+        with self.engine.connect() as conn:
+            conn.execute(statement=query)
   
         return True, 200

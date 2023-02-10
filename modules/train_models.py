@@ -111,13 +111,14 @@ class Train:
 
     def check_samples_table(self):
         
-        dirty_samples = self.engine.execute(
-            f'''
-            SELECT sp.sample_id, sp.mean_age, sp.mode_gender, sp.mode_location, 
-            sp.mode_education, sp.mode_profession, sp.sample_size, sp.sample_date
-            FROM {self.schema_name}.sample_properties as sp;
-            '''
-        ).fetchall()
+        with self.engine.connect() as conn:
+            dirty_samples = conn.execute(
+                f'''
+                SELECT sp.sample_id, sp.mean_age, sp.mode_gender, sp.mode_location, 
+                sp.mode_education, sp.mode_profession, sp.sample_size, sp.sample_date
+                FROM {self.schema_name}.sample_properties as sp;
+                '''
+            ).fetchall()
 
         # initiate
         clean_samples = {}
