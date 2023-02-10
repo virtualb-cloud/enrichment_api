@@ -6,6 +6,7 @@ import json
 
 # samples
 from modules.read_samples import Read
+from modules.read_metrics import Read_metrics
 from background_tasks import inserter, trainer, deleter
 from modules.insert_controller import Insert_controller
 from modules.train_controller import Train_controller
@@ -168,6 +169,21 @@ def read_samples():
     if request.method == "GET":
 
         read = Read()
+
+        # call the modeler
+        try:
+            output = read.run()
+        except:
+            return jsonify("Reading Error"), 500
+        
+        return jsonify(output), 200
+
+@app.route("/read_metrics", methods=["GET"])
+def read_metrics():
+    
+    if request.method == "GET":
+
+        read = Read_metrics()
 
         # call the modeler
         try:

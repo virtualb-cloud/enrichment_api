@@ -145,6 +145,20 @@ paths:
         '200':
           description: ''
           headers: {}
+  /read_metrics:
+    get:
+      summary: read_metrics
+      tags:
+      - samples and training
+      operationId: read_metrics
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
   /insert_samples:
     post:
       summary: Insert_samples
