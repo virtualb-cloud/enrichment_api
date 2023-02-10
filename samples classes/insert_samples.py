@@ -39,7 +39,7 @@ class Insert:
     def insert_sample_properties(self, sample:list, sample_date:str, sample_source:str, sample_content:dict):
         
         sample_size = len(sample)
-
+        
         count = 0
 
         ages = 0
@@ -77,25 +77,25 @@ class Insert:
 
         max = 0
         for key, value in genders.items():
-            if value > max: 
+            if value >= max: 
                 max = value
                 mode_gender = key
 
         max = 0
         for key, value in locations.items():
-            if value > max: 
+            if value >= max: 
                 max = value
                 mode_location = key
 
         max = 0
         for key, value in educations.items():
-            if value > max: 
+            if value >= max: 
                 max = value
                 mode_education = key
 
         max = 0
         for key, value in professions.items():
-            if value > max: 
+            if value >= max: 
                 max = value
                 mode_profession = key
 
@@ -365,19 +365,16 @@ class Insert:
 
     def run(self, body:list):
         
+        
         for sample in body:
-
+            
+            print(sample.keys())
             self.sample_id += 1
 
-            # get data
+            # get data    
             sample_source = sample["sample_source"]
             sample_date = sample["sample_date"]
             people = sample["sample"]
-
-            print(len(people))
-
-            # run the controller
-            self.controller.run(people)
 
             flags = {
                 "status" : False,
@@ -411,8 +408,8 @@ class Insert:
             
             # insert sample
             response = self.insert_sample_properties(people, sample_date, sample_source, sample_content=flags)
-            if response == False: return False, 422
-
+            if not response: return False
+            
             self.insert_people_sociodemographics(sample=people)
             print("sociodemographics pushed")
 

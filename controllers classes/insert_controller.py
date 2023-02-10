@@ -7,11 +7,25 @@ class Insert_controller:
         # before adding to enrichment db
 
         pass
+    
+    def first_keys_controller(self, samples:list):
+        
+        keys = ["sample_source", "sample_date", "sample"]
 
-    def main_keys_controller(self, people:list):
+        for sample in samples:
+
+            # flag True means to have necessary input data
+
+            for key in keys:
+                if not key in sample.keys():
+                    samples.remove(sample)
+                    
+        return samples
+
+    def second_keys_controller(self, people:list):
 
         keys = ["sociodemographics", "status", "cultures", "attitudes", "needs"]
-
+        to_be_deleted = []
         for person in people:
 
             # flag True means to have necessary input data
@@ -21,8 +35,10 @@ class Insert_controller:
             if not "sociodemographics" in person.keys(): flag = False
                 
             for key in person.keys():
-                if not key in keys: del person[key]
+                if not key in keys: to_be_deleted.append(key)
             
+            for key in to_be_deleted:
+                del person[key]
 
             if (len(person) in [0, 1]) | (flag == False): people.remove(person)
 
@@ -32,7 +48,7 @@ class Insert_controller:
         
         # mandatory variables
         mandatory_keys = [
-            "age", "gender", "region", "profession", "education"
+            "age", "gender", "location", "profession", "education"
         ]
 
         # empty lists to gather processable data
@@ -59,10 +75,10 @@ class Insert_controller:
         # functional limits to each variable
         age_limits = [18, 100]
 
-        gender_limits = ["m", "f", "o"]
+        gender_limits = ["m", "f"]
 
         region_limits = [
-            'piemonte', "valle daosta", 'lombardia', 'trentino-alto adige', 'veneto', 'friuli venezia giulia',
+            'piemonte', "valle daosta", 'lombardia', 'trentino alto adige', 'veneto', 'friuli venezia giulia',
             'liguria', 'emilia romagna', 'toscana', 'umbria', 'marche', 'lazio', 'abruzzo', 'molise', 'campania',
             'puglia', 'basilicata', 'calabria', 'sicilia','sardegna' 
         ]
@@ -88,7 +104,7 @@ class Insert_controller:
             # check if necessary variables exist
             if (person["sociodemographics"]["age"] > 100) | (person["sociodemographics"]["age"] < 18): flag = False
             if not person["sociodemographics"]["gender"] in gender_limits: flag = False
-            if not person["sociodemographics"]["region"] in region_limits: flag = False
+            if not person["sociodemographics"]["location"] in region_limits: flag = False
             if not person["sociodemographics"]["profession"] in profession_limits: flag = False
             if not person["sociodemographics"]["education"] in education_limits: flag = False
 
@@ -107,15 +123,17 @@ class Insert_controller:
             "life_quality_index"
         ]
 
-
         # check optional keys and values
         for person in people:
 
-            for key in person["cultures"].key() :
-                if not key in optional_keys: del person["cultures"][key]
-                elif (person["cultures"][key] < 0) | (person["cultures"][key] > 1): del person["cultures"][key]
-                person["cultures"][key] = round(person["cultures"][key], 2)
-                    
+            to_be_deleted = []
+            for key in person["cultures"].keys() :
+                if not key in optional_keys: to_be_deleted.append(key)
+                elif (person["cultures"][key] < 0) | (person["cultures"][key] > 1): to_be_deleted.append(key)
+                else: person["cultures"][key] = round(person["cultures"][key], 2)
+            for key in to_be_deleted:
+                del person["cultures"][key]
+
             if len(person["cultures"]) == 0: del person["cultures"]
 
         return people
@@ -133,10 +151,13 @@ class Insert_controller:
         # check optional keys and values
         for person in people:
 
-            for key in person["status"].key() :
-                if not key in optional_keys: del person["status"][key]
-                elif (person["status"][key] < 0) | (person["status"][key] > 1): del person["status"][key]
-                person["status"][key] = round(person["status"][key], 2)
+            to_be_deleted = []
+            for key in person["status"].keys() :
+                if not key in optional_keys: to_be_deleted.append(key)
+                elif (person["status"][key] < 0) | (person["status"][key] > 1): to_be_deleted.append(key)
+                else: person["status"][key] = round(person["status"][key], 2)
+            for key in to_be_deleted:
+                del person["status"][key]
 
             if len(person["status"]) == 0: del person["status"]
 
@@ -152,11 +173,14 @@ class Insert_controller:
 
         # check optional keys and values
         for person in people:
-
-            for key in person["attitudes"].key() :
-                if not key in optional_keys: del person["attitudes"][key]
-                elif (person["attitudes"][key] < 0) | (person["attitudes"][key] > 1): del person["attitudes"][key]
-                person["attitudes"][key] = round(person["attitudes"][key], 2)
+            
+            to_be_deleted = []
+            for key in person["attitudes"].keys() :
+                if not key in optional_keys: to_be_deleted.append(key)
+                elif (person["attitudes"][key] < 0) | (person["attitudes"][key] > 1): to_be_deleted.append(key)
+                else: person["attitudes"][key] = round(person["attitudes"][key], 2)
+            for key in to_be_deleted:
+                del person["attitudes"][key]
 
             if len(person["attitudes"]) == 0: del person["attitudes"]
 
@@ -177,23 +201,71 @@ class Insert_controller:
         # check optional keys and values
         for person in people:
 
-            for key in person["needs"].key() :
-                if not key in optional_keys: del person["needs"][key]
-                elif (person["needs"][key] < 0) | (person["needs"][key] > 1): del person["needs"][key]
-                person["needs"][key] = round(person["needs"][key], 2)
-                    
+            to_be_deleted = []
+            for key in person["needs"].keys() :
+                if not key in optional_keys: to_be_deleted.append(key)
+                elif (person["needs"][key] < 0) | (person["needs"][key] > 1): to_be_deleted.append(key)
+                else: person["needs"][key] = round(person["needs"][key], 2)
+            for key in to_be_deleted:
+                del person["needs"][key]
+
             if len(person["needs"]) == 0: del person["needs"]
 
         return people
 
-    def run(self, people:list):
+    def run(self, body:list):
 
-        people = self.main_keys_controller(people)
-        people = self.sociodemographics_keys_controller(people)
-        people = self.sociodemographics_values_controller(people)
-        people = self.cultures_controller(people)
-        people = self.status_controller(people)
-        people = self.attitudes_controller(people)
-        people = self.needs_controller(people)
+        new_samples = []
+        new_people = []
 
-        return people
+        samples = self.first_keys_controller(body)
+        if samples == []: return False, 422, "first-keys-controller"
+
+        for sample in samples:
+
+            people = sample["sample"]
+
+            for person in people:
+                
+                flags = {
+                "status" : False,
+                "cultures" : False,
+                "attitudes" : False,
+                "needs" : False
+                } 
+                if "cultures" in person.keys(): flags["cultures"] = True
+                if "status" in person.keys(): flags["status"] = True
+                if "attitudes" in person.keys(): flags["attitudes"] = True
+                if "needs" in person.keys(): flags["needs"] = True
+                   
+                person = self.second_keys_controller([person])
+                if person == []: return False, 422, "second-keys-controller"
+
+                person = self.sociodemographics_keys_controller(person)
+                if person == []: return False, 422, "sociodemographics-keys-controller"
+
+                person = self.sociodemographics_values_controller(person)
+                if person == []: return False, 422, "sociodemographics-values-controller"
+
+                if flags["cultures"]:
+                    person = self.cultures_controller(person)
+                    if person == []: return False, 422, "cultures-controller"
+
+                if flags["status"]:
+                    person = self.status_controller(person)
+                    if person == []: return False, 422, "status-controller"
+                
+                if flags["attitudes"]:
+                    person = self.attitudes_controller(person)
+                    if person == []: return False, 422, "attitudes-controller"
+
+                if flags["needs"]:
+                    person = self.needs_controller(person)
+                    if person == []: return False, 422, "needs-controller"
+                
+                new_people.append(person[0])
+
+            sample["sample"] = new_people
+            new_samples.append(sample)
+
+        return True, 200, new_samples
