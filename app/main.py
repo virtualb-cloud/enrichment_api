@@ -143,7 +143,7 @@ def train_models():
 
         return "training done successfully", 200
 
-@app.route("/read_train_metrics", methods=["GET"])
+@app.route("/read_metrics", methods=["GET"])
 def read_train_metrics():
     
     if request.method == "GET":
@@ -151,10 +151,10 @@ def read_train_metrics():
         read = Read_metrics()
 
         # call the modeler
-        try:
-            output = read.run()
-        except:
-            return jsonify("Reading Error"), 500
+        # try:
+        output = read.run()
+        # except:
+        #     return jsonify("Reading Error"), 500
         
         return jsonify(output), 200
 
