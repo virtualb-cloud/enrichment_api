@@ -170,14 +170,14 @@ def read_samples():
         read = Read()
 
         # call the modeler
-        
-        output = read.run()
-        # except:
-        #     return jsonify("Reading Error"), 500
+        try:
+            output = read.run()
+        except:
+            return jsonify("Reading Error"), 500
         
         return jsonify(output), 200
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 3000))
     app.run(debug=True, host='0.0.0.0', port=port)

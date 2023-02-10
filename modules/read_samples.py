@@ -18,7 +18,7 @@ class Read:
         FROM {self.schema_name}.sample_properties
         '''
         with self.engine.connect() as conn:
-            data = conn.execute(statement=query).fetchall()
+            data = conn.execute(query).fetchall()
 
         samples = []
         for sample in data:
