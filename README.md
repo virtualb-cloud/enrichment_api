@@ -1,2 +1,3 @@
 # enrichment_api
-containing version 3 of api and first samples
+### containing first and essential samples
+### these should be accompanied with insert class
