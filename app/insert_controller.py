@@ -80,7 +80,7 @@ class Insert_controller:
         region_limits = [
             'piemonte', "valle daosta", 'lombardia', 'trentino alto adige', 'veneto', 'friuli venezia giulia',
             'liguria', 'emilia romagna', 'toscana', 'umbria', 'marche', 'lazio', 'abruzzo', 'molise', 'campania',
-            'puglia', 'basilicata', 'calabria', 'sicilia','sardegna' 
+            'puglia', 'basilicata', 'calabria', 'sicilia', 'sardegna' 
         ]
 
         profession_limits = [
