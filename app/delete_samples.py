@@ -32,7 +32,6 @@ class Delete:
         print(final_ids)
         return True, final_ids
   
-
     def run(self, body:dict):
         
         response = self.check(body=body)

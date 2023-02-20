@@ -18,7 +18,7 @@ class Delete_controller:
 
 
 
-    def run(self, body:list):
+    def run(self, body:dict):
 
         response = self.first_keys_controller(body)
         if not response: return False, 422, "first-keys-controller"
